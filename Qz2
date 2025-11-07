@@ -1,0 +1,72 @@
+import React, { useState } from "react";
+
+export default function App() {
+  const q = [
+    { Q: "Capital of France?", A: "Paris", O: ["Paris", "London", "Berlin", "Madrid"] },
+    { Q: "Red Planet?", A: "Mars", O: ["Earth", "Mars", "Jupiter", "Venus"] },
+    { Q: "Lang for web apps?", A: "JavaScript", O: ["Python", "JavaScript", "C++", "Java"] },
+  ];
+
+  const [i, sI] = useState(0),
+    [sc, sS] = useState(0),
+    [end, sE] = useState(false);
+
+  const pick = (o) => {
+    if (o === q[i].A) sS(sc + 1);
+    i + 1 < q.length ? sI(i + 1) : sE(true);
+  };
+
+  const rst = () => {
+    sI(0);
+    sS(0);
+    sE(false);
+  };
+
+  const btn = {
+    margin: 5,
+    padding: 10,
+    width: 200,
+    borderRadius: 6,
+    border: "1px solid #b32525ff",
+    cursor: "pointer",
+  };
+
+  return (
+    <div
+      style={{
+        textAlign: "center",
+        padding: 40,
+        fontFamily: "system-ui",
+        backgroundColor: "#d0e8ff", // 🎨 added background color (light blue)
+        minHeight: "100vh", // makes it cover the full screen
+      }}
+    >
+      <h2>React Quiz</h2>
+      {end ? (
+        <>
+          <h3>
+            Score: {sc}/{q.length}
+          </h3>
+          <button
+            onClick={rst}
+            style={{ ...btn, background: "#4CAF50", color: "#fff" }}
+          >
+            Restart
+          </button>
+        </>
+      ) : (
+        <>
+          <h4>
+            Q{i + 1}/{q.length}
+          </h4>
+          <p>{q[i].Q}</p>
+          {q[i].O.map((o, k) => (
+            <button key={k} onClick={() => pick(o)} style={btn}>
+              {o}
+            </button>
+          ))}
+        </>
+      )}
+    </div>
+  );
+}
